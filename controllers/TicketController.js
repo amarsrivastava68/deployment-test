@@ -72,7 +72,8 @@ export const getAllTickets = async (req, res) => {
         if (category ) filter.category = category
 
         const tickets = await Ticket.find(filter).populate('createdBy' , 'name email').populate('assignedTo','name email').sort({createdAt:-1}).skip(skip).limit(Number(limit))
-        
+         const total = await Ticket.countDocuments(filter)
+
         return res.status(200).json({
             message: "Tickets fetched successfully",
             data: tickets,
